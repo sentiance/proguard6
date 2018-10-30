@@ -503,7 +503,7 @@ public class Obfuscator
         // Rename the source file attributes, if requested.
         if (configuration.newSourceFileAttribute != null)
         {
-            programClassPool.classesAccept(new SourceFileRenamer(configuration.newSourceFileAttribute));
+            programClassPool.classesAccept(new SourceFileRenamer(configuration.newSourceFileAttribute, configuration.keepOriginalSourceFileAttribute));
         }
 
         // Remove unused constants.
