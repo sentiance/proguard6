@@ -273,6 +273,12 @@ public class Configuration
 
     /**
      * A list of <code>String</code>s specifying a filter for classes whose
+     * source file attributes are to be kept.
+     */
+    public List      keepOriginalSourceFileAttribute;
+
+    /**
+     * A list of <code>String</code>s specifying a filter for classes whose
      * string constants are to be adapted, based on corresponding obfuscated
      * class names.
      */

@@ -27,6 +27,9 @@ import proguard.classfile.editor.ConstantPoolEditor;
 import proguard.classfile.util.SimplifiedVisitor;
 import proguard.classfile.visitor.ClassVisitor;
 
+import java.util.List;
+import proguard.util.*;
+
 /**
  * This ClassVisitor changes the name stored in the source file attributes
  * and source dir attributes of the classes that it visits, if the
@@ -40,16 +43,17 @@ implements   ClassVisitor,
              AttributeVisitor
 {
     private final String newSourceFileAttribute;
-
+    private final StringMatcher keepOriginalSourceFileAttribute;
 
     /**
      * Creates a new SourceFileRenamer.
      * @param newSourceFileAttribute the new string to be put in the source file
      *                               attributes.
      */
-    public SourceFileRenamer(String newSourceFileAttribute)
+    public SourceFileRenamer(String newSourceFileAttribute, List keepOriginalSourceFileAttribute)
     {
         this.newSourceFileAttribute = newSourceFileAttribute;
+        this.keepOriginalSourceFileAttribute = new ListParser(new ClassNameParser()).parse(keepOriginalSourceFileAttribute);
     }
 
 
@@ -69,9 +73,14 @@ implements   ClassVisitor,
 
     public void visitSourceFileAttribute(Clazz clazz, SourceFileAttribute sourceFileAttribute)
     {
+        String name = newSourceFileAttribute;
+
+        if (keepOriginalSourceFileAttribute.matches(clazz.getName()))
+            return;
+
         // Fix the source file attribute.
         sourceFileAttribute.u2sourceFileIndex =
-            new ConstantPoolEditor((ProgramClass)clazz).addUtf8Constant(newSourceFileAttribute);
+                new ConstantPoolEditor((ProgramClass)clazz).addUtf8Constant(name);
     }
 
 

@@ -1,19 +1,10 @@
-[![Bintray](https://api.bintray.com/packages/bintray/jcenter/net.sf.proguard%3Aproguard-parent/images/download.svg)](https://bintray.com/bintray/jcenter/net.sf.proguard%3Aproguard-parent/_latestVersion)
+ProGuard clone with support for exceptions to SourceFile renaming
+=================================================================
 
-ProGuard Java Optimizer and Obfuscator
-======================================
+This is a fork of johnjohndoe/ProGuard with support for adding exceptions
+to the renamesourcefileattribute directive to keep the original source
+file names.
 
-* Java class file shrinker, optimizer, obfuscator, and preverifier
-* Developed by [Eric Lafortune][1]
+For example:
 
-
-
-About this repository
----------------------
-
-This repository contains all versions also available on [http://proguard.sourceforge.net][2].
-
-
-[1]: mailto:eric@graphics.cornell.edu
-[2]: http://proguard.sourceforge.net
-
+-keeporiginalsourcefileattribute com.example.SomeClass

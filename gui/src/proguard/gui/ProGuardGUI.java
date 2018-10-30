@@ -111,6 +111,7 @@ public class ProGuardGUI extends JFrame
     private final JCheckBox keepAttributesCheckBox                = new JCheckBox(msg("keepAttributes"));
     private final JCheckBox keepParameterNamesCheckBox            = new JCheckBox(msg("keepParameterNames"));
     private final JCheckBox newSourceFileAttributeCheckBox        = new JCheckBox(msg("renameSourceFileAttribute"));
+    private final JCheckBox keepOriginalSourceFileAttrCheckBox    = new JCheckBox(msg("keepOriginalSourceFileAttribute"));
     private final JCheckBox adaptClassStringsCheckBox             = new JCheckBox(msg("adaptClassStrings"));
     private final JCheckBox adaptResourceFileNamesCheckBox        = new JCheckBox(msg("adaptResourceFileNames"));
     private final JCheckBox adaptResourceFileContentsCheckBox     = new JCheckBox(msg("adaptResourceFileContents"));
@@ -146,6 +147,7 @@ public class ProGuardGUI extends JFrame
     private final JTextField repackageClassesTextField              = new JTextField(40);
     private final JTextField keepAttributesTextField                = new JTextField(40);
     private final JTextField newSourceFileAttributeTextField        = new JTextField(40);
+    private final JTextField keepOriginalSourceFileAttrTextField    = new JTextField(40);
     private final JTextField adaptClassStringsTextField             = new JTextField(40);
     private final JTextField adaptResourceFileNamesTextField        = new JTextField(40);
     private final JTextField adaptResourceFileContentsTextField     = new JTextField(40);
@@ -387,42 +389,44 @@ public class ProGuardGUI extends JFrame
         JPanel obfuscationOptionsPanel = new JPanel(layout);
         addBorder(obfuscationOptionsPanel, "options");
 
-        obfuscationOptionsPanel.add(tip(obfuscateCheckBox,                       "obfuscateTip"),                     constraintsLastStretch);
-        obfuscationOptionsPanel.add(tip(printMappingCheckBox,                    "printMappingTip"),                  constraints);
-        obfuscationOptionsPanel.add(tip(printMappingTextField,                   "outputFileTip"),                    constraintsStretch);
-        obfuscationOptionsPanel.add(tip(printMappingBrowseButton,                "selectPrintMappingFile"),           constraintsLast);
-        obfuscationOptionsPanel.add(tip(applyMappingCheckBox,                    "applyMappingTip"),                  constraints);
-        obfuscationOptionsPanel.add(tip(applyMappingTextField,                   "inputFileTip"),                     constraintsStretch);
-        obfuscationOptionsPanel.add(tip(applyMappingBrowseButton,                "selectApplyMappingFile"),           constraintsLast);
-        obfuscationOptionsPanel.add(tip(obfuscationDictionaryCheckBox,           "obfuscationDictionaryTip"),         constraints);
-        obfuscationOptionsPanel.add(tip(obfuscationDictionaryTextField,          "inputFileTip"),                     constraintsStretch);
-        obfuscationOptionsPanel.add(tip(obfucationDictionaryBrowseButton,        "selectObfuscationDictionaryFile"),  constraintsLast);
-        obfuscationOptionsPanel.add(tip(classObfuscationDictionaryCheckBox,      "classObfuscationDictionaryTip"),    constraints);
-        obfuscationOptionsPanel.add(tip(classObfuscationDictionaryTextField,     "inputFileTip"),                     constraintsStretch);
-        obfuscationOptionsPanel.add(tip(classObfucationDictionaryBrowseButton,   "selectObfuscationDictionaryFile"),  constraintsLast);
-        obfuscationOptionsPanel.add(tip(packageObfuscationDictionaryCheckBox,    "packageObfuscationDictionaryTip"),  constraints);
-        obfuscationOptionsPanel.add(tip(packageObfuscationDictionaryTextField,   "inputFileTip"),                     constraintsStretch);
-        obfuscationOptionsPanel.add(tip(packageObfucationDictionaryBrowseButton, "selectObfuscationDictionaryFile"),  constraintsLast);
-        obfuscationOptionsPanel.add(tip(overloadAggressivelyCheckBox,            "overloadAggressivelyTip"),          constraintsLastStretch);
-        obfuscationOptionsPanel.add(tip(useUniqueClassMemberNamesCheckBox,       "useUniqueClassMemberNamesTip"),     constraintsLastStretch);
-        obfuscationOptionsPanel.add(tip(useMixedCaseClassNamesCheckBox,          "useMixedCaseClassNamesTip"),        constraintsLastStretch);
-        obfuscationOptionsPanel.add(tip(keepPackageNamesCheckBox,                "keepPackageNamesTip"),              constraints);
-        obfuscationOptionsPanel.add(tip(keepPackageNamesTextField,               "packageNamesTip"),                  constraintsLastStretch);
-        obfuscationOptionsPanel.add(tip(flattenPackageHierarchyCheckBox,         "flattenPackageHierarchyTip"),       constraints);
-        obfuscationOptionsPanel.add(tip(flattenPackageHierarchyTextField,        "packageTip"),                       constraintsLastStretch);
-        obfuscationOptionsPanel.add(tip(repackageClassesCheckBox,                "repackageClassesTip"),              constraints);
-        obfuscationOptionsPanel.add(tip(repackageClassesTextField,               "packageTip"),                       constraintsLastStretch);
-        obfuscationOptionsPanel.add(tip(keepAttributesCheckBox,                  "keepAttributesTip"),                constraints);
-        obfuscationOptionsPanel.add(tip(keepAttributesTextField,                 "attributesTip"),                    constraintsLastStretch);
-        obfuscationOptionsPanel.add(tip(keepParameterNamesCheckBox,              "keepParameterNamesTip"),            constraintsLastStretch);
-        obfuscationOptionsPanel.add(tip(newSourceFileAttributeCheckBox,          "renameSourceFileAttributeTip"),     constraints);
-        obfuscationOptionsPanel.add(tip(newSourceFileAttributeTextField,         "sourceFileAttributeTip"),           constraintsLastStretch);
-        obfuscationOptionsPanel.add(tip(adaptClassStringsCheckBox,               "adaptClassStringsTip"),             constraints);
-        obfuscationOptionsPanel.add(tip(adaptClassStringsTextField,              "classNamesTip"),                    constraintsLastStretch);
-        obfuscationOptionsPanel.add(tip(adaptResourceFileNamesCheckBox,          "adaptResourceFileNamesTip"),        constraints);
-        obfuscationOptionsPanel.add(tip(adaptResourceFileNamesTextField,         "fileNameFilterTip"),                constraintsLastStretch);
-        obfuscationOptionsPanel.add(tip(adaptResourceFileContentsCheckBox,       "adaptResourceFileContentsTip"),     constraints);
-        obfuscationOptionsPanel.add(tip(adaptResourceFileContentsTextField,      "fileNameFilterTip"),                constraintsLastStretch);
+        obfuscationOptionsPanel.add(tip(obfuscateCheckBox,                       "obfuscateTip"),                       constraintsLastStretch);
+        obfuscationOptionsPanel.add(tip(printMappingCheckBox,                    "printMappingTip"),                    constraints);
+        obfuscationOptionsPanel.add(tip(printMappingTextField,                   "outputFileTip"),                      constraintsStretch);
+        obfuscationOptionsPanel.add(tip(printMappingBrowseButton,                "selectPrintMappingFile"),             constraintsLast);
+        obfuscationOptionsPanel.add(tip(applyMappingCheckBox,                    "applyMappingTip"),                    constraints);
+        obfuscationOptionsPanel.add(tip(applyMappingTextField,                   "inputFileTip"),                       constraintsStretch);
+        obfuscationOptionsPanel.add(tip(applyMappingBrowseButton,                "selectApplyMappingFile"),             constraintsLast);
+        obfuscationOptionsPanel.add(tip(obfuscationDictionaryCheckBox,           "obfuscationDictionaryTip"),           constraints);
+        obfuscationOptionsPanel.add(tip(obfuscationDictionaryTextField,          "inputFileTip"),                       constraintsStretch);
+        obfuscationOptionsPanel.add(tip(obfucationDictionaryBrowseButton,        "selectObfuscationDictionaryFile"),    constraintsLast);
+        obfuscationOptionsPanel.add(tip(classObfuscationDictionaryCheckBox,      "classObfuscationDictionaryTip"),      constraints);
+        obfuscationOptionsPanel.add(tip(classObfuscationDictionaryTextField,     "inputFileTip"),                       constraintsStretch);
+        obfuscationOptionsPanel.add(tip(classObfucationDictionaryBrowseButton,   "selectObfuscationDictionaryFile"),    constraintsLast);
+        obfuscationOptionsPanel.add(tip(packageObfuscationDictionaryCheckBox,    "packageObfuscationDictionaryTip"),    constraints);
+        obfuscationOptionsPanel.add(tip(packageObfuscationDictionaryTextField,   "inputFileTip"),                       constraintsStretch);
+        obfuscationOptionsPanel.add(tip(packageObfucationDictionaryBrowseButton, "selectObfuscationDictionaryFile"),    constraintsLast);
+        obfuscationOptionsPanel.add(tip(overloadAggressivelyCheckBox,            "overloadAggressivelyTip"),            constraintsLastStretch);
+        obfuscationOptionsPanel.add(tip(useUniqueClassMemberNamesCheckBox,       "useUniqueClassMemberNamesTip"),       constraintsLastStretch);
+        obfuscationOptionsPanel.add(tip(useMixedCaseClassNamesCheckBox,          "useMixedCaseClassNamesTip"),          constraintsLastStretch);
+        obfuscationOptionsPanel.add(tip(keepPackageNamesCheckBox,                "keepPackageNamesTip"),                constraints);
+        obfuscationOptionsPanel.add(tip(keepPackageNamesTextField,               "packageNamesTip"),                    constraintsLastStretch);
+        obfuscationOptionsPanel.add(tip(flattenPackageHierarchyCheckBox,         "flattenPackageHierarchyTip"),         constraints);
+        obfuscationOptionsPanel.add(tip(flattenPackageHierarchyTextField,        "packageTip"),                         constraintsLastStretch);
+        obfuscationOptionsPanel.add(tip(repackageClassesCheckBox,                "repackageClassesTip"),                constraints);
+        obfuscationOptionsPanel.add(tip(repackageClassesTextField,               "packageTip"),                         constraintsLastStretch);
+        obfuscationOptionsPanel.add(tip(keepAttributesCheckBox,                  "keepAttributesTip"),                  constraints);
+        obfuscationOptionsPanel.add(tip(keepAttributesTextField,                 "attributesTip"),                      constraintsLastStretch);
+        obfuscationOptionsPanel.add(tip(keepParameterNamesCheckBox,              "keepParameterNamesTip"),              constraintsLastStretch);
+        obfuscationOptionsPanel.add(tip(newSourceFileAttributeCheckBox,          "renameSourceFileAttributeTip"),       constraints);
+        obfuscationOptionsPanel.add(tip(keepOriginalSourceFileAttrCheckBox,      "keepOriginalSourceFileAttributeTip"), constraints);
+        obfuscationOptionsPanel.add(tip(newSourceFileAttributeTextField,         "sourceFileAttributeTip"),             constraintsLastStretch);
+        obfuscationOptionsPanel.add(tip(keepOriginalSourceFileAttrTextField,     "originalSourceFileAttributeTip"),     constraintsLastStretch);
+        obfuscationOptionsPanel.add(tip(adaptClassStringsCheckBox,               "adaptClassStringsTip"),               constraints);
+        obfuscationOptionsPanel.add(tip(adaptClassStringsTextField,              "classNamesTip"),                      constraintsLastStretch);
+        obfuscationOptionsPanel.add(tip(adaptResourceFileNamesCheckBox,          "adaptResourceFileNamesTip"),          constraints);
+        obfuscationOptionsPanel.add(tip(adaptResourceFileNamesTextField,         "fileNameFilterTip"),                  constraintsLastStretch);
+        obfuscationOptionsPanel.add(tip(adaptResourceFileContentsCheckBox,       "adaptResourceFileContentsTip"),       constraints);
+        obfuscationOptionsPanel.add(tip(adaptResourceFileContentsTextField,      "fileNameFilterTip"),                  constraintsLastStretch);
 
         JPanel obfuscationPanel = new JPanel(layout);
         obfuscationPanel.add(obfuscationOptionsPanel, panelConstraints);
@@ -527,6 +531,7 @@ public class ProGuardGUI extends JFrame
             flattenPackageHierarchyCheckBox,
             repackageClassesCheckBox,
             newSourceFileAttributeCheckBox,
+            keepOriginalSourceFileAttrCheckBox,
         }));
 
         JPanel optionsPanel = new JPanel(layout);
@@ -1174,23 +1179,24 @@ public class ProGuardGUI extends JFrame
         optimizationPassesSpinner.getModel()    .setValue(new Integer(configuration.optimizationPasses));
 
         obfuscateCheckBox                       .setSelected(configuration.obfuscate);
-        printMappingCheckBox                    .setSelected(configuration.printMapping                  != null);
-        applyMappingCheckBox                    .setSelected(configuration.applyMapping                  != null);
-        obfuscationDictionaryCheckBox           .setSelected(configuration.obfuscationDictionary         != null);
-        classObfuscationDictionaryCheckBox      .setSelected(configuration.classObfuscationDictionary    != null);
-        packageObfuscationDictionaryCheckBox    .setSelected(configuration.packageObfuscationDictionary  != null);
+        printMappingCheckBox                    .setSelected(configuration.printMapping                     != null);
+        applyMappingCheckBox                    .setSelected(configuration.applyMapping                     != null);
+        obfuscationDictionaryCheckBox           .setSelected(configuration.obfuscationDictionary            != null);
+        classObfuscationDictionaryCheckBox      .setSelected(configuration.classObfuscationDictionary       != null);
+        packageObfuscationDictionaryCheckBox    .setSelected(configuration.packageObfuscationDictionary     != null);
         overloadAggressivelyCheckBox            .setSelected(configuration.overloadAggressively);
         useUniqueClassMemberNamesCheckBox       .setSelected(configuration.useUniqueClassMemberNames);
         useMixedCaseClassNamesCheckBox          .setSelected(configuration.useMixedCaseClassNames);
-        keepPackageNamesCheckBox                .setSelected(configuration.keepPackageNames              != null);
-        flattenPackageHierarchyCheckBox         .setSelected(configuration.flattenPackageHierarchy       != null);
-        repackageClassesCheckBox                .setSelected(configuration.repackageClasses              != null);
-        keepAttributesCheckBox                  .setSelected(configuration.keepAttributes                != null);
+        keepPackageNamesCheckBox                .setSelected(configuration.keepPackageNames                 != null);
+        flattenPackageHierarchyCheckBox         .setSelected(configuration.flattenPackageHierarchy          != null);
+        repackageClassesCheckBox                .setSelected(configuration.repackageClasses                 != null);
+        keepAttributesCheckBox                  .setSelected(configuration.keepAttributes                   != null);
         keepParameterNamesCheckBox              .setSelected(configuration.keepParameterNames);
-        newSourceFileAttributeCheckBox          .setSelected(configuration.newSourceFileAttribute        != null);
-        adaptClassStringsCheckBox               .setSelected(configuration.adaptClassStrings             != null);
-        adaptResourceFileNamesCheckBox          .setSelected(configuration.adaptResourceFileNames        != null);
-        adaptResourceFileContentsCheckBox       .setSelected(configuration.adaptResourceFileContents     != null);
+        newSourceFileAttributeCheckBox          .setSelected(configuration.newSourceFileAttribute           != null);
+        keepOriginalSourceFileAttrCheckBox      .setSelected(configuration.keepOriginalSourceFileAttribute  != null);
+        adaptClassStringsCheckBox               .setSelected(configuration.adaptClassStrings                != null);
+        adaptResourceFileNamesCheckBox          .setSelected(configuration.adaptResourceFileNames           != null);
+        adaptResourceFileContentsCheckBox       .setSelected(configuration.adaptResourceFileContents        != null);
 
         preverifyCheckBox                       .setSelected(configuration.preverify);
         microEditionCheckBox                    .setSelected(configuration.microEdition);
@@ -1219,11 +1225,12 @@ public class ProGuardGUI extends JFrame
         keepPackageNamesTextField               .setText(configuration.keepPackageNames          == null ? ""                                   : ClassUtil.externalClassName(ListUtil.commaSeparatedString(configuration.keepPackageNames, true)));
         flattenPackageHierarchyTextField        .setText(configuration.flattenPackageHierarchy);
         repackageClassesTextField               .setText(configuration.repackageClasses);
-        keepAttributesTextField                 .setText(configuration.keepAttributes                == null ? KEEP_ATTRIBUTE_DEFAULT                    : ListUtil.commaSeparatedString(configuration.keepAttributes, true));
-        newSourceFileAttributeTextField         .setText(configuration.newSourceFileAttribute        == null ? SOURCE_FILE_ATTRIBUTE_DEFAULT             : configuration.newSourceFileAttribute);
-        adaptClassStringsTextField              .setText(configuration.adaptClassStrings             == null ? ""                                        : ClassUtil.externalClassName(ListUtil.commaSeparatedString(configuration.adaptClassStrings, true)));
-        adaptResourceFileNamesTextField         .setText(configuration.adaptResourceFileNames        == null ? ADAPT_RESOURCE_FILE_NAMES_DEFAULT         : ListUtil.commaSeparatedString(configuration.adaptResourceFileNames, true));
-        adaptResourceFileContentsTextField      .setText(configuration.adaptResourceFileContents     == null ? ADAPT_RESOURCE_FILE_CONTENTS_DEFAULT      : ListUtil.commaSeparatedString(configuration.adaptResourceFileContents, true));
+        keepAttributesTextField                 .setText(configuration.keepAttributes                  == null ? KEEP_ATTRIBUTE_DEFAULT                    : ListUtil.commaSeparatedString(configuration.keepAttributes, true));
+        newSourceFileAttributeTextField         .setText(configuration.newSourceFileAttribute          == null ? SOURCE_FILE_ATTRIBUTE_DEFAULT             : configuration.newSourceFileAttribute);
+        keepOriginalSourceFileAttrTextField     .setText(configuration.keepOriginalSourceFileAttribute == null ? ""                                        : ListUtil.commaSeparatedString(configuration.keepOriginalSourceFileAttribute, true));
+        adaptClassStringsTextField              .setText(configuration.adaptClassStrings               == null ? ""                                        : ClassUtil.externalClassName(ListUtil.commaSeparatedString(configuration.adaptClassStrings, true)));
+        adaptResourceFileNamesTextField         .setText(configuration.adaptResourceFileNames          == null ? ADAPT_RESOURCE_FILE_NAMES_DEFAULT         : ListUtil.commaSeparatedString(configuration.adaptResourceFileNames, true));
+        adaptResourceFileContentsTextField      .setText(configuration.adaptResourceFileContents       == null ? ADAPT_RESOURCE_FILE_CONTENTS_DEFAULT      : ListUtil.commaSeparatedString(configuration.adaptResourceFileContents, true));
         noteTextField                           .setText(ListUtil.commaSeparatedString(configuration.note, true));
         warnTextField                           .setText(ListUtil.commaSeparatedString(configuration.warn, true));
         keepDirectoriesTextField                .setText(ListUtil.commaSeparatedString(configuration.keepDirectories, true));
@@ -1403,6 +1410,7 @@ public class ProGuardGUI extends JFrame
         configuration.keepAttributes                   = keepAttributesCheckBox                  .isSelected() ? ListUtil.commaSeparatedList(keepAttributesTextField                  .getText()) : null;
         configuration.keepParameterNames               = keepParameterNamesCheckBox              .isSelected();
         configuration.newSourceFileAttribute           = newSourceFileAttributeCheckBox          .isSelected() ? newSourceFileAttributeTextField                                      .getText()  : null;
+        configuration.keepOriginalSourceFileAttribute  = keepOriginalSourceFileAttrCheckBox      .isSelected() ? ListUtil.commaSeparatedList(keepOriginalSourceFileAttrTextField      .getText()) : null;
         configuration.adaptClassStrings                = adaptClassStringsCheckBox               .isSelected() ? adaptClassStringsTextField.getText().length() > 0 ? ListUtil.commaSeparatedList(ClassUtil.internalClassName(adaptClassStringsTextField.getText())) : new ArrayList() : null;
         configuration.adaptResourceFileNames           = adaptResourceFileNamesCheckBox          .isSelected() ? ListUtil.commaSeparatedList(adaptResourceFileNamesTextField          .getText()) : null;
         configuration.adaptResourceFileContents        = adaptResourceFileContentsCheckBox       .isSelected() ? ListUtil.commaSeparatedList(adaptResourceFileContentsTextField       .getText()) : null;

@@ -65,6 +65,9 @@ public class ListParser implements StringParser
     public StringMatcher parse(List regularExpressions)
     {
         StringMatcher listMatcher = null;
+        if (regularExpressions == null) {
+            return null;
+        }
 
         // Loop over all simple regular expressions, backward, creating a
         // linked list of matchers.
