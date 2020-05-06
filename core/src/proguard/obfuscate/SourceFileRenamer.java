@@ -75,6 +75,9 @@ implements   ClassVisitor,
     {
         String name = newSourceFileAttribute;
 
+        if (keepOriginalSourceFileAttribute == null)
+            return;
+
         if (keepOriginalSourceFileAttribute.matches(clazz.getName()))
             return;
 
